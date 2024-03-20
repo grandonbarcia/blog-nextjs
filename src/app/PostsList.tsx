@@ -1,5 +1,6 @@
 import { unstable_noStore } from 'next/cache';
 import { getAllPosts } from '@/data-access/posts';
+import Link from 'next/link';
 
 export default async function TodoList() {
   unstable_noStore();
@@ -13,14 +14,13 @@ export default async function TodoList() {
     <>
       <ul>
         {posts.map((post) => (
-          <li
-            key={post.id}
-            className="flex justify-between items-center gap-2 w-[200px] "
-          >
-            <div>{formatDate(post.createdAt)}</div>
-            <div>{post.id}</div>
-            <div>{post.title}</div>
-          </li>
+          <Link href={`/posts/${post.id}`} key={post.id}>
+            <li className="flex justify-between items-center gap-2 w-[200px] ">
+              <div>{formatDate(post.createdAt)}</div>
+              <div>{post.id}</div>
+              <div>{post.title}</div>
+            </li>
+          </Link>
         ))}
       </ul>
     </>
