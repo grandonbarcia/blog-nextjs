@@ -15,10 +15,12 @@ export default async function TodoList() {
       <ul>
         {posts.map((post) => (
           <Link href={`/posts/${post.id}`} key={post.id}>
-            <li className="flex justify-between items-center gap-2 w-[200px] ">
+            <li className="flex justify-between items-center w-[400px] ">
+              <div className="flex gap-2">
+                <div>{post.id}</div>
+                <div>{post.title}</div>
+              </div>
               <div>{formatDate(post.createdAt)}</div>
-              <div>{post.id}</div>
-              <div>{post.title}</div>
             </li>
           </Link>
         ))}

@@ -6,14 +6,15 @@ export default async function PostDetails({
   params: { postId: string };
 }) {
   const post = await getPostById(parseInt(params.postId));
-  console.log(post);
+
   return (
     <>
-      <section className="container flex justify-center">
-        <article className="w-1/2">
-          <h1>PostDetails {params.postId}</h1>
-          <div>{post?.id}</div>
-          <div>{post?.title}</div>
+      <section className="container flex justify-center mt-32">
+        <article className="flex flex-col gap-5 w-1/2">
+          <div className="flex justify-between items-center">
+            <div className="text-3xl">{post?.title}</div>
+            <div className="text-6xl">{post?.id}</div>
+          </div>
           <div>{post?.content}</div>
         </article>
       </section>
