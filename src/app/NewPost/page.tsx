@@ -12,14 +12,17 @@ import {
 
 import { Input } from '@/components/ui/input';
 import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
+import { Button } from '@/components/ui/button';
+import TipTap from './TipTap';
 
 export default function NewPost() {
   const formSchema = z.object({
     title: z
       .string()
       .min(5, { message: 'hey the title is not long enough' })
-      .max(10, 'hey the title is too long')
+      .max(10, { message: 'hey the title is too long ' })
       .trim(),
     content: z
       .string()
@@ -27,6 +30,7 @@ export default function NewPost() {
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
     mode: 'onChange',
     defaultValues: {
       title: '',
@@ -34,10 +38,12 @@ export default function NewPost() {
     },
   });
 
+  function onSubmit() {}
+
   return (
     <>
-      <Form {...form}>
-        <form>
+      <div className='container h-screen w-1/2  flex flex-col  items-center text-left gap-6"'>
+        <Form {...form}>
           <FormField
             control={form.control}
             name="title"
@@ -45,7 +51,10 @@ export default function NewPost() {
               <FormItem>
                 <FormLabel>Title</FormLabel>
                 <FormControl>
-                  <Input placeholder="Main title of yourpost"></Input>
+                  <Input
+                    placeholder="Main title of your post"
+                    onChange={field.onChange}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -58,14 +67,17 @@ export default function NewPost() {
               <FormItem>
                 <FormLabel>Content</FormLabel>
                 <FormControl>
-                  {/* <Tiptap description={field.name} onChang={field.onChange} /> */}
+                  <TipTap description={field.name} onChange={field.onChange} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-        </form>
-      </Form>
+          <Button className="my-4" type="submit">
+            Submit
+          </Button>
+        </Form>
+      </div>
     </>
   );
 }
