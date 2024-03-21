@@ -2,6 +2,7 @@
 
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
+import { Toolbar } from './ToolBar';
 
 const Tiptap = ({
   description,
@@ -11,11 +12,11 @@ const Tiptap = ({
   onChange: (richText: string) => void;
 }) => {
   const editor = useEditor({
-    extensions: [StarterKit.configure()],
+    extensions: [StarterKit],
     editorProps: {
       attributes: {
         class:
-          'rounded-md border min-h-[250px] min-w-[250px] border-input p-2 ',
+          'prose max-w-none [&_ol]:list-decimal [&_ul]:list-disc rounded-md border min-h-[350px] min-w-[350px] border-input p-2 ',
       },
     },
     content: description,
@@ -25,7 +26,12 @@ const Tiptap = ({
     },
   });
 
-  return <EditorContent editor={editor} />;
+  return (
+    <div>
+      <Toolbar editor={editor} />
+      <EditorContent editor={editor} />
+    </div>
+  );
 };
 
 export default Tiptap;
