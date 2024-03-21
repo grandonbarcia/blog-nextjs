@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import PostsList from './PostsList';
+import PostsList from '../components/PostsList';
 import { ModeToggle } from '@/components/ModeToggle';
 export default function Home() {
   return (
