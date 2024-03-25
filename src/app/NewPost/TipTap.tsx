@@ -4,13 +4,7 @@ import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { Toolbar } from './ToolBar';
 
-const Tiptap = ({
-  description,
-  onChange,
-}: {
-  description: string;
-  onChange: (richText: string) => void;
-}) => {
+const Tiptap = ({ onChange }: { onChange: (richText: string) => void }) => {
   const editor = useEditor({
     extensions: [StarterKit],
     editorProps: {
@@ -19,14 +13,13 @@ const Tiptap = ({
           'prose [&_ol]:list-decimal [&_ul]:list-disc rounded-md border min-h-[350px] min-w-[350px] max-w-[350px] border-input p-2 ',
       },
     },
-    content: description,
     onUpdate({ editor }) {
       onChange(editor.getHTML());
     },
   });
 
   return (
-    <div>
+    <div className="flex flex-col gap-1">
       <Toolbar editor={editor} />
       <EditorContent editor={editor} />
     </div>

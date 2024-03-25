@@ -10,6 +10,8 @@ import {
   FormField,
 } from '@/components/ui/form';
 
+import { LoaderIcon } from 'lucide-react';
+
 import { Input } from '@/components/ui/input';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -45,14 +47,14 @@ export default function NewPost() {
 
   return (
     <>
-      <div className='container h-screen w-1/2  flex flex-col  items-center text-left gap-6"'>
+      <div className="container h-screen w-2/3 flex flex-col  items-center justify-center ">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <FormField
               control={form.control}
               name="title"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="mb-5">
                   <FormLabel>Title</FormLabel>
                   <FormControl>
                     <Input
@@ -71,10 +73,7 @@ export default function NewPost() {
                 <FormItem>
                   <FormLabel>Content</FormLabel>
                   <FormControl>
-                    <TipTap
-                      description={field.name}
-                      onChange={field.onChange}
-                    />
+                    <TipTap onChange={field.onChange} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
