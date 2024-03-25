@@ -15,7 +15,11 @@ export default async function PostDetails({
             <div className="text-3xl">{post?.title}</div>
             <div className="text-6xl">{post?.id}</div>
           </div>
-          <div>{post?.content}</div>
+          <div
+            className="text-container"
+            dangerouslySetInnerHTML={{ __html: post?.content as string }}
+          />
+          {/* <div>{post?.content}</div> */}
         </article>
       </section>
     </>

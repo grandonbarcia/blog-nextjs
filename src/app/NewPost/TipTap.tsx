@@ -16,13 +16,12 @@ const Tiptap = ({
     editorProps: {
       attributes: {
         class:
-          'prose max-w-none [&_ol]:list-decimal [&_ul]:list-disc rounded-md border min-h-[350px] min-w-[350px] border-input p-2 ',
+          'prose [&_ol]:list-decimal [&_ul]:list-disc rounded-md border min-h-[350px] min-w-[350px] max-w-[350px] border-input p-2 ',
       },
     },
     content: description,
     onUpdate({ editor }) {
       onChange(editor.getHTML());
-      console.log(editor.getHTML());
     },
   });
 

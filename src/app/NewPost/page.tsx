@@ -16,13 +16,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Button } from '@/components/ui/button';
 import TipTap from './TipTap';
+import { createPostAction } from '@/server-actions/actions';
 
 export default function NewPost() {
   const formSchema = z.object({
     title: z
       .string()
       .min(5, { message: 'hey the title is not long enough' })
-      .max(10, { message: 'hey the title is too long ' })
+      .max(15, { message: 'hey the title is too long ' })
       .trim(),
     content: z
       .string()
@@ -31,51 +32,58 @@ export default function NewPost() {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    mode: 'onChange',
+    mode: 'onSubmit',
     defaultValues: {
       title: '',
       content: '',
     },
   });
 
-  function onSubmit() {}
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    createPostAction(values).then(() => console.log('OnSubmit Success'));
+  }
 
   return (
     <>
       <div className='container h-screen w-1/2  flex flex-col  items-center text-left gap-6"'>
         <Form {...form}>
-          <FormField
-            control={form.control}
-            name="title"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Title</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Main title of your post"
-                    onChange={field.onChange}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="content"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Content</FormLabel>
-                <FormControl>
-                  <TipTap description={field.name} onChange={field.onChange} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button className="my-4" type="submit">
-            Submit
-          </Button>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Title</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Main title of your post"
+                      onChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="content"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Content</FormLabel>
+                  <FormControl>
+                    <TipTap
+                      description={field.name}
+                      onChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button className="my-4" type="submit">
+              Submit
+            </Button>
+          </form>
         </Form>
       </div>
     </>
