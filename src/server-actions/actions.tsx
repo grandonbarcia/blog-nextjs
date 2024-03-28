@@ -15,3 +15,11 @@ export async function createPostAction(postData: PostData) {
     },
   });
 }
+
+export async function getUser(email: string | undefined) {
+  return await prisma.user.findUnique({
+    where: {
+      email: email,
+    },
+  });
+}
