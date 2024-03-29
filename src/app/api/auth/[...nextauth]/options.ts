@@ -1,16 +1,10 @@
 import type { NextAuthOptions } from 'next-auth';
-import GitHubProvider from 'next-auth/providers/github';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { getUser } from '@/server-actions/actions';
 import bcrypt from 'bcrypt';
 
 export const options: NextAuthOptions = {
   providers: [
-    GitHubProvider({
-      clientId: process.env.GITHUB_ID as string,
-      clientSecret: process.env.GITHUB_SECRET as string,
-    }),
-
     CredentialsProvider({
       name: 'Credentials',
       credentials: {
@@ -31,20 +25,19 @@ export const options: NextAuthOptions = {
 
         const userDB = await getUser(credentials?.email);
 
-        const newPW = 'thisismypassword';
-
         const passwordMatches = await bcrypt.compare(
-          newPW as string,
+          credentials?.password as string,
           userDB?.password as string
         );
 
-        console.log(userDB);
-        console.log(credentials.password);
-        console.log(passwordMatches);
-        console.log(newPW);
+        const user = {
+          id: userDB.toString(),
+          name: 'Brandon Garcia',
+          email: userDB.email,
+        };
 
         if (passwordMatches) {
-          return userDB;
+          return user;
         } else {
           return null;
         }
