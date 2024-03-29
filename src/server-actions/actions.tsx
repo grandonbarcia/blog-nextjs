@@ -3,8 +3,8 @@
 // import { prisma } from '../../prisma/client';
 import prisma from '../../prisma/client';
 type PostData = {
-  title: string;
-  content: string;
+  title?: string;
+  content?: string;
 };
 
 export async function createPostAction(postData: PostData) {
