@@ -19,8 +19,11 @@ import * as z from 'zod';
 import { Button } from '@/components/ui/button';
 import TipTap from './TipTap';
 import { createPostAction } from '@/server-actions/actions';
+import { useRouter } from 'next/navigation';
 
 export default function NewPost() {
+  const router = useRouter();
+
   const formSchema = z.object({
     title: z
       .string()
@@ -42,7 +45,7 @@ export default function NewPost() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    createPostAction(values).then(() => console.log('OnSubmit Success'));
+    createPostAction(values).then(() => router.push('/'));
   }
 
   function IsLoadingIcon() {
