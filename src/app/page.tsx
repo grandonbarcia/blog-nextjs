@@ -14,7 +14,7 @@ export default function Home() {
         <div className="flex items-center">
           <ModeToggle />
           <h1 className="text-3xl ml-3 font-bold">Blog</h1>
-          <Link className="ml-auto" href="/NewPost">
+          <Link className="ml-auto opacity-0 hover:opacity-100" href="/NewPost">
             <Button>Admin</Button>
           </Link>
         </div>
