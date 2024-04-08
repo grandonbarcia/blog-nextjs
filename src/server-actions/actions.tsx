@@ -16,6 +16,16 @@ export async function createPostAction(postData: PostData) {
   });
 }
 
+export async function editPostAction(postData: PostData, id: number) {
+  return await prisma.post.update({
+    where: { id: id },
+    data: {
+      title: postData.title,
+      content: postData.content,
+    },
+  });
+}
+
 export async function getUser(email: string | undefined) {
   return await prisma.user.findUnique({
     where: {

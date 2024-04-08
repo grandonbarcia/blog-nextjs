@@ -10,19 +10,19 @@ import {
   FormField,
 } from '@/components/ui/form';
 
-import { Loader } from 'lucide-react';
-
 import { Input } from '@/components/ui/input';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Button } from '@/components/ui/button';
 import TipTap from './TipTap';
-import { createPostAction } from '@/server-actions/actions';
+import { createPostAction, editPostAction } from '@/server-actions/actions';
 import { useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 
-export default function PostForm() {
+export default function PostForm({ formSpecies }: { formSpecies: string }) {
   const router = useRouter();
+  const params = useParams<{ tag: string; item: string }>();
 
   const formSchema = z.object({
     title: z
@@ -35,17 +35,22 @@ export default function PostForm() {
       .min(5, { message: 'hey the content is not long enough' }),
   });
 
+  const editValues = JSON.parse(localStorage.getItem('post')) || {};
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     mode: 'onSubmit',
     defaultValues: {
-      title: '',
-      content: '',
+      title: formSpecies === 'edit' ? editValues.title : '',
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    createPostAction(values).then(() => router.push('/'));
+    if (formSpecies == 'edit') {
+      editPostAction(values, editValues.id).then(() => router.push('/'));
+    } else {
+      createPostAction(values).then(() => router.push('/'));
+    }
   }
 
   function IsLoadingIcon() {
@@ -84,6 +89,7 @@ export default function PostForm() {
                     <Input
                       placeholder="Main title of your post"
                       onChange={field.onChange}
+                      {...field}
                     />
                   </FormControl>
                   <FormMessage />
@@ -97,7 +103,11 @@ export default function PostForm() {
                 <FormItem>
                   <FormLabel>Content</FormLabel>
                   <FormControl>
-                    <TipTap onChange={field.onChange} />
+                    <TipTap
+                      onChange={field.onChange}
+                      formSpecies={formSpecies}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

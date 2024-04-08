@@ -1,3 +1,5 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
@@ -7,7 +9,7 @@ export default function Post({ post }) {
     <section className="container flex justify-center mt-32">
       <article className="flex flex-col gap-5 w-1/2">
         <div className="w-1/3">
-          <Link href="/PostForm">
+          <Link href="/EditPost">
             <Button>Edit</Button>
           </Link>
         </div>
