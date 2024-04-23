@@ -10,12 +10,19 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { useRouter } from 'next/navigation';
+import { deletePostAction } from '@/server-actions/actions';
+import { revalidatePath } from 'next/cache';
+
 import Link from 'next/link';
 
 export default function Post({ post }) {
   localStorage.setItem('post', JSON.stringify(post));
+  const router = useRouter();
+
+  function deletePost(id: number) {
+    deletePostAction(id).then(() => router.push('/'));
+  }
 
   function DeletePostModal() {
     return (
@@ -30,22 +37,11 @@ export default function Post({ post }) {
               Are you sure you want to Delete this Post?
             </DialogDescription>
           </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="name" className="text-right">
-                Name
-              </Label>
-              <Input id="name" value="Pedro Duarte" className="col-span-3" />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="username" className="text-right">
-                Username
-              </Label>
-              <Input id="username" value="@peduarte" className="col-span-3" />
-            </div>
-          </div>
           <DialogFooter>
-            <Button variant="destructive">Delete</Button>
+            <Button>No</Button>
+            <Button variant="destructive" onClick={() => deletePost(post?.id)}>
+              Yes
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

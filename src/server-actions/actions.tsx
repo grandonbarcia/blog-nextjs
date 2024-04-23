@@ -33,3 +33,11 @@ export async function getUser(email: string | undefined) {
     },
   });
 }
+
+export async function deletePostAction(id: number) {
+  return await prisma.post.delete({
+    where: {
+      id: id,
+    },
+  });
+}

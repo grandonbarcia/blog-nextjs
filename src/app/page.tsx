@@ -3,8 +3,10 @@ import PostsList from '../components/PostsList';
 import { ModeToggle } from '@/components/ModeToggle';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { unstable_noStore as noStore } from 'next/cache';
 
 export default function Home() {
+  noStore();
   return (
     <main className="container h-screen flex flex-col  items-center text-left gap-6">
       <div className="grid col-span-1 gap-28 mt-16">

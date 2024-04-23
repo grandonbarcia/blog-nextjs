@@ -2,8 +2,9 @@ import { unstable_noStore } from 'next/cache';
 import { getAllPosts } from '@/data-access/posts';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 export default async function TodoList() {
-  unstable_noStore();
   const posts = await getAllPosts();
 
   function formatDate(date: Date) {
